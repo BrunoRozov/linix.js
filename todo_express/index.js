@@ -18,6 +18,13 @@ app.get('/', (req, res) => {
     res.render('index', {tasks: tasks}) 
   })
 })
+
+app.use(express.urlencoded({ extended: true }));
+
+app.post('/', (req, res) => {
+  console.log('from sent data')
+  console.log(req.body)
+})
         
 
 app.listen(1569, () => {
