@@ -8,19 +8,18 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
-    fs.readFile('tasks.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err)
-            return
-        }
-        console.log(data)
-        console.timeLogger('data')
-        const tasks = JSON.parse(data)
-        res.render('index', { tasks })
-    })
-})          ._router,d[[f
+  fs.readFile('./tasks', 'utf8', (err, data) => {
+    console.log('Reading tasks file...')
+     if (err) {
+      return console.error(err)
+    }
+    
+    const tasks = data.split('\n')
+    res.render('index', {tasks: tasks}) 
+  })
+})
+        
 
-
-app.listen(1568, () => {
-  console.log('Server running on port 1568')
+app.listen(1569, () => {
+  console.log('Server running on port 1569')
 })
