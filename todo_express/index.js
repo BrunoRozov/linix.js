@@ -1,3 +1,4 @@
+const { resolve } = require('dns')
 const express = require('express')
 const app = express()
 const fs = require('fs')
@@ -20,6 +21,18 @@ const readFile = (filename) => {
   })
 }
 
+const writeFile = (filename, data) => {
+  return new Promise((resolve, reject) => { 
+    fs.writeFile(filename, data, 'utf-8', err => {
+      if(err) {
+        console.error(err)
+        return;
+      }
+      resolve(true)   
+    });
+  }) 
+} 
+
 
 app.get('/', (req, res) => {
   readFile('./tasks.json')
@@ -32,36 +45,29 @@ app.get('/', (req, res) => {
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
-  readFile('./tasks')
-    .then(tasks => {
-      let index
-      if(tasks.length === 0)
-      {
-        index = 0
-      } else {
-        index = tasks.length[tasks.tasks.length - 1].id + 1
-      } 
-      
-      const newTask = {
-        id: index,
-        task: req.body.task
-      }
-      console.log(newTask)
-      tasks.push(newTask)
-      console.log(tasks)
-      data = JSON.stringify(tasks, null, 2)
-      console.log(data)
-      fs.writeFile('./tasks.json', data, (err) => {
-        if (err) {
-          console.error(err)
-          return
-        } else {
-          console.log('saved')
-        } 
-
-        res.redirect('/')
-      })
-    })
+  // tasks list data from file
+  readFile('./tasks.json')
+  .then(tasks => {
+    // add new task
+    // create new id automatically
+    let index
+    if (tasks.length === 0) {
+      index = 0
+    } else {
+      index = tasks[tasks.length - 1].id + 1
+    }
+    // create task object
+    const newTask = {
+      "id": index,
+      "task": req.body.task
+    }
+    // add form sent task to tasks array
+    tasks.push(newTask)
+    data = JSON.stringify(tasks, null, 2)
+    writeFile('tasks.json', data)
+    // redirect to / to see result
+    res.redirect('/')
+  })
 })
 
 app.get('/delete-task/:taskId', (req, res) => {
@@ -69,21 +75,16 @@ app.get('/delete-task/:taskId', (req, res) => {
   readFile('./tasks.json')
   .then(tasks => {
     tasks.forEach((task, index) => {
-      if (task.id === deletedTaskId){
+      if (task.id === deletedTaskId) {
         tasks.splice(index, 1)
       }
     })
     data = JSON.stringify(tasks, null, 2)
-    fs.writeFile('./tasks.json', data, 'utf-8', err => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      // redirect to / to see result
-      res.redirect('/')
-    })
+    writeFile('tasks.json', data)
+    // redirect to / to see result
+    res.redirect('/')
   })
-})      
+})    
 
 app.listen(1569, () => {
   console.log('Server running on port 1569')
