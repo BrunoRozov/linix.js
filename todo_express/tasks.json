@@ -1,28 +1,22 @@
 [
-   {
+  {
     "id": 1,
     "task": "Õpi HTML"
-   },
-   {
+  },
+  {
     "id": 2,
     "task": "Õpi CSS"
-   },
-   {
+  },
+  {
     "id": 3,
     "task": "Õpi JavaScript"
-   },
-   {
+  },
+  {
     "id": 4,
     "task": "Õpi Node.js"
-   },
-   {
-        "id": 5,
-        "task": "Õpi FS"
-   },
+  },
   {
-    "id": 6,
-    "task": "Uss Task"
-  } 
-
-
+    "id": 5,
+    "task": "Õpi FS"
+  }
 ]
