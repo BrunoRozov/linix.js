@@ -84,7 +84,25 @@ app.get('/delete-task/:taskId', (req, res) => {
     // redirect to / to see result
     res.redirect('/')
   })
-})    
+})
+
+app.post('/delete-tasks', (req, res) => {
+  const clearedTasks = []
+    fs.writeFile('./tasks.json', JSON.stringify(clearedTasks, null, 2), () => {
+      res.redirect('/')
+    }) 
+}) 
+
+
+app.post('/delete-tasks', (req, res) => {
+  readFile('./tasks.json')
+    .then(tasks => {
+      const clearedTasks = []
+      const data = JSON.stringify(clearedTasks, null, 2)
+      writeFile('tasks.json', data)
+      res.redirect('/')
+    })
+})
 
 app.listen(1569, () => {
   console.log('Server running on port 1569')
