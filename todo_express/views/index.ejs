@@ -40,10 +40,15 @@
                          <ul class="collection">
                             <% tasks.forEach((task) => { %>
                                 <li class="collection-item">
-                                    <%= task.task %>
-                                    <a href="delete-task/<%= task.id %>" class="secondary-content">
-                                        <i class="material-icons">delete</i>
-                                    </a>
+                                    <span><%= task.task %></span>
+                                    <span class="secondary-content" style="display: flex; align-items: center; gap: 12px;">
+                                        <a href="/update-task/<%= task.id %>" title="update-task" aria-label="update-task">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <a href="/delete-task/<%= task.id %>" title="Delete task" aria-label="Delete task">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </span>
                                 </li>
                             <% }) %>
                          </ul>
